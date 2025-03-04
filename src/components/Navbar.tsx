@@ -1,11 +1,14 @@
 
 import { Button } from "./ui/button";
+import { useUser, UserButton, SignedIn, SignedOut } from "@clerk/clerk-react";
 
 type NavbarProps = {
   onSignupClick: () => void;
 };
 
 export default function Navbar({ onSignupClick }: NavbarProps) {
+  const { isSignedIn, user } = useUser();
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b">
       <div className="container mx-auto px-4">
@@ -26,24 +29,31 @@ export default function Navbar({ onSignupClick }: NavbarProps) {
             <a href="#features" className="text-gray-600 hover:text-gray-900">Features</a>
             <a href="#content-ideas" className="text-gray-600 hover:text-gray-900">Content Ideas</a>
             <a href="#title-generator" className="text-gray-600 hover:text-gray-900">Title Generator</a>
-            <Button variant="ghost">Sign in</Button>
-            <Button className="bg-youtube-red hover:bg-red-700" onClick={onSignupClick}>Get Started</Button>
+            
+            <SignedIn>
+              <a href="/dashboard" className="text-gray-600 hover:text-gray-900">Dashboard</a>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            
+            <SignedOut>
+              <Button variant="ghost" onClick={onSignupClick}>Sign in</Button>
+              <Button className="bg-youtube-red hover:bg-red-700" onClick={onSignupClick}>Get Started</Button>
+            </SignedOut>
           </div>
-          <button className="md:hidden p-2">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </button>
+          
+          {/* Mobile Menu */}
+          <div className="md:hidden flex items-center">
+            <SignedIn>
+              <a href="/dashboard" className="text-gray-600 hover:text-gray-900 mr-4">Dashboard</a>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+            
+            <SignedOut>
+              <Button className="bg-youtube-red hover:bg-red-700" onClick={onSignupClick}>
+                Sign In
+              </Button>
+            </SignedOut>
+          </div>
         </div>
       </div>
     </nav>
