@@ -1,49 +1,11 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
-
-const niches = [
-  "Tech Reviews",
-  "Gaming",
-  "Cooking",
-  "Fitness",
-  "Travel",
-  "Beauty",
-  "Finance",
-  "Education",
-  "DIY/Crafts",
-  "Fashion",
-];
-
-// Mock AI-generated content ideas for demonstration
-const mockContentIdeas = {
-  "Tech Reviews": [
-    "10 Hidden Features in the Latest iPhone You Need to Know",
-    "Budget vs Premium: Are Expensive Headphones Really Worth It?",
-    "The Future of Foldable Phones: What's Coming in 2024",
-    "How to Choose the Perfect Gaming Monitor: Ultimate Guide",
-    "Smart Home Gadgets That Actually Save You Money",
-  ],
-  Gaming: [
-    "Hidden Easter Eggs in [Popular Game] You Probably Missed",
-    "Pro Tips to Rank Up Faster in [Competitive Game]",
-    "The Evolution of [Game Franchise]: From Beginning to Now",
-    "Budget Gaming Setup Under $500 That Runs AAA Games",
-    "5 Underrated Games You NEED to Play in 2024",
-  ],
-  Cooking: [
-    "15-Minute Meals for Busy Weeknights",
-    "Restaurant-Quality Pasta Dishes You Can Make at Home",
-    "Baking for Beginners: Foolproof Recipes Anyone Can Make",
-    "International Street Foods You Can Cook in Your Kitchen",
-    "Meal Prep Hacks That Will Save You Hours Each Week",
-  ],
-};
+import { niches, mockContentIdeas, type Niche } from "@/data/contentIdeasData";
 
 export default function ContentIdeas() {
-  const [selectedNiche, setSelectedNiche] = useState("");
+  const [selectedNiche, setSelectedNiche] = useState<Niche | "">("");
   const [contentIdeas, setContentIdeas] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -57,10 +19,7 @@ export default function ContentIdeas() {
 
     // Simulate API call with timeout
     setTimeout(() => {
-      // Get mock ideas for the selected niche, or random ideas if niche not in mock data
-      const ideas = mockContentIdeas[selectedNiche as keyof typeof mockContentIdeas] || 
-        mockContentIdeas["Tech Reviews"];
-      
+      const ideas = mockContentIdeas[selectedNiche];
       setContentIdeas(ideas);
       setLoading(false);
       toast.success("Content ideas generated successfully!");
