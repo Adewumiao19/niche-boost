@@ -1,7 +1,11 @@
 
 import { Button } from "./ui/button";
 
-export default function Navbar() {
+type NavbarProps = {
+  onSignupClick: () => void;
+};
+
+export default function Navbar({ onSignupClick }: NavbarProps) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b">
       <div className="container mx-auto px-4">
@@ -20,9 +24,10 @@ export default function Navbar() {
           </div>
           <div className="hidden md:flex items-center space-x-8">
             <a href="#features" className="text-gray-600 hover:text-gray-900">Features</a>
-            <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
+            <a href="#content-ideas" className="text-gray-600 hover:text-gray-900">Content Ideas</a>
+            <a href="#title-generator" className="text-gray-600 hover:text-gray-900">Title Generator</a>
             <Button variant="ghost">Sign in</Button>
-            <Button className="bg-youtube-red hover:bg-red-700">Get Started</Button>
+            <Button className="bg-youtube-red hover:bg-red-700" onClick={onSignupClick}>Get Started</Button>
           </div>
           <button className="md:hidden p-2">
             <svg

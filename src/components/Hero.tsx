@@ -2,7 +2,11 @@
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
 
-export default function Hero() {
+type HeroProps = {
+  onGetStartedClick: () => void;
+};
+
+export default function Hero({ onGetStartedClick }: HeroProps) {
   return (
     <section className="relative py-20 overflow-hidden">
       <div className="container px-4 mx-auto">
@@ -31,7 +35,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="flex flex-wrap gap-4"
               >
-                <Button size="lg" className="bg-youtube-red hover:bg-red-700">
+                <Button size="lg" className="bg-youtube-red hover:bg-red-700" onClick={onGetStartedClick}>
                   Get Started
                 </Button>
                 <Button size="lg" variant="outline">
@@ -52,7 +56,7 @@ export default function Hero() {
                   <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
                     <div className="h-12 w-12 bg-youtube-red rounded-full flex items-center justify-center">
                       <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                       </svg>
                     </div>
                     <div>
