@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { Check, Plus, Trash2, Youtube } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type Channel = {
   id: string;
@@ -48,8 +49,8 @@ export default function Dashboard() {
 
   if (!isLoaded || !isSignedIn) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p>Loading...</p>
+      <div className="flex min-h-screen items-center justify-center dark:bg-gray-900">
+        <p className="dark:text-gray-200">Loading...</p>
       </div>
     );
   }
@@ -87,29 +88,32 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20">
       <div className="container mx-auto px-4 py-8">
-        <motion.h1 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-3xl font-bold mb-2"
-        >
-          Welcome, {user.firstName || user.emailAddresses[0]?.emailAddress}!
-        </motion.h1>
+        <div className="flex justify-between items-center mb-8">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl font-bold dark:text-white"
+          >
+            Welcome, {user.firstName || user.emailAddresses[0]?.emailAddress}!
+          </motion.h1>
+          <ThemeToggle />
+        </div>
         <motion.p 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-gray-600 mb-8"
+          className="text-gray-600 dark:text-gray-300 mb-8"
         >
           Manage your YouTube channels and boost your content creation
         </motion.p>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full max-w-md grid-cols-3">
-            <TabsTrigger value="channels">Channels</TabsTrigger>
-            <TabsTrigger value="content">Content Ideas</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsList className="grid w-full max-w-md grid-cols-3 dark:bg-gray-800">
+            <TabsTrigger value="channels" className="dark:data-[state=active]:bg-gray-700">Channels</TabsTrigger>
+            <TabsTrigger value="content" className="dark:data-[state=active]:bg-gray-700">Content Ideas</TabsTrigger>
+            <TabsTrigger value="analytics" className="dark:data-[state=active]:bg-gray-700">Analytics</TabsTrigger>
           </TabsList>
 
           <TabsContent value="channels" className="space-y-6">
@@ -125,21 +129,21 @@ export default function Dashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Card>
+                  <Card className="dark:bg-gray-800 dark:border-gray-700">
                     <CardHeader>
-                      <CardTitle className="flex items-center justify-between">
+                      <CardTitle className="flex items-center justify-between dark:text-white">
                         <span>{channel.name}</span>
                         {channel.isLinked && (
-                          <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center">
+                          <span className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full flex items-center">
                             <Check className="w-3 h-3 mr-1" />
                             Linked
                           </span>
                         )}
                       </CardTitle>
-                      <CardDescription>Niche: {channel.niche}</CardDescription>
+                      <CardDescription className="dark:text-gray-400">Niche: {channel.niche}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         {channel.subscribers} subscribers
                       </p>
                     </CardContent>
@@ -147,21 +151,21 @@ export default function Dashboard() {
                       {!channel.isLinked ? (
                         <Button 
                           variant="outline" 
-                          className="flex items-center" 
+                          className="flex items-center dark:border-gray-600 dark:text-gray-200" 
                           onClick={() => handleLinkChannel(channel.id)}
                         >
                           <Youtube className="w-4 h-4 mr-2" />
                           Link Channel
                         </Button>
                       ) : (
-                        <Button variant="outline" className="flex items-center">
+                        <Button variant="outline" className="flex items-center dark:border-gray-600 dark:text-gray-200">
                           <Youtube className="w-4 h-4 mr-2" />
                           Manage
                         </Button>
                       )}
                       <Button 
                         variant="ghost" 
-                        className="text-red-500" 
+                        className="text-red-500 dark:text-red-400" 
                         onClick={() => handleRemoveChannel(channel.id)}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -176,26 +180,27 @@ export default function Dashboard() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: channels.length * 0.1 }}
               >
-                <Card>
+                <Card className="dark:bg-gray-800 dark:border-gray-700">
                   <CardHeader>
-                    <CardTitle>Add New Channel</CardTitle>
-                    <CardDescription>Connect a new YouTube channel</CardDescription>
+                    <CardTitle className="dark:text-white">Add New Channel</CardTitle>
+                    <CardDescription className="dark:text-gray-400">Connect a new YouTube channel</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="channel-name">Channel Name</Label>
+                      <Label htmlFor="channel-name" className="dark:text-gray-200">Channel Name</Label>
                       <Input 
                         id="channel-name" 
                         placeholder="My Awesome Channel"
                         value={newChannelName}
                         onChange={(e) => setNewChannelName(e.target.value)}
+                        className="dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="channel-niche">Channel Niche</Label>
+                      <Label htmlFor="channel-niche" className="dark:text-gray-200">Channel Niche</Label>
                       <select
                         id="channel-niche"
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                         value={newChannelNiche}
                         onChange={(e) => setNewChannelNiche(e.target.value)}
                       >
@@ -220,31 +225,31 @@ export default function Dashboard() {
           </TabsContent>
 
           <TabsContent value="content">
-            <Card>
+            <Card className="dark:bg-gray-800 dark:border-gray-700">
               <CardHeader>
-                <CardTitle>Content Ideas</CardTitle>
-                <CardDescription>
+                <CardTitle className="dark:text-white">Content Ideas</CardTitle>
+                <CardDescription className="dark:text-gray-400">
                   View and manage your content ideas across all channels
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="dark:text-gray-300">
                 <p>Your content ideas will appear here. Visit the Content Ideas generator to create new ideas.</p>
               </CardContent>
               <CardFooter>
-                <Button>Go to Content Ideas</Button>
+                <Button className="dark:bg-gray-700 dark:text-white">Go to Content Ideas</Button>
               </CardFooter>
             </Card>
           </TabsContent>
 
           <TabsContent value="analytics">
-            <Card>
+            <Card className="dark:bg-gray-800 dark:border-gray-700">
               <CardHeader>
-                <CardTitle>Analytics</CardTitle>
-                <CardDescription>
+                <CardTitle className="dark:text-white">Analytics</CardTitle>
+                <CardDescription className="dark:text-gray-400">
                   Track your channel's performance and growth
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="dark:text-gray-300">
                 <p>Channel analytics will be displayed here.</p>
               </CardContent>
             </Card>
